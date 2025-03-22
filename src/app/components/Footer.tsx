@@ -5,7 +5,6 @@ export default function Footer() {
     <footer className="bg-gradient-to-t from-green-200 via-green-100 to-green-50 py-8 text-gray-700">
       <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
         
-        {/* Logo y descripción */}
         <div className="text-center md:text-left mb-4 md:mb-0">
           <h3 className="text-xl font-semibold text-green-700">CirEconomy</h3>
           <p className="text-gray-600 text-sm max-w-xs mt-1">
@@ -13,7 +12,6 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Redes Sociales */}
         <div className="flex space-x-6 mb-4 md:mb-0">
           <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-green-700 transition-all">
             <FaLinkedin size={24} />
@@ -37,7 +35,6 @@ export default function Footer() {
         </a>
       </div>
 
-      {/* Copyright */}
       <div className="text-center text-sm text-gray-500 mt-6">
         © {new Date().getFullYear()} CirEconomy - Todos los derechos reservados.
       </div>
