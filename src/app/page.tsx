@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import Footer from "./components/Footer";
+import Link from "next/link";
 
 export default function Home() {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
@@ -99,12 +100,11 @@ export default function Home() {
             CirEconomy conecta empresas que generan materiales reutilizables con aquellas que los necesitan. Por ejemplo, una constructora puede vender excedentes en lugar de desecharlos, reduciendo desperdicio y fomentando un modelo sostenible.
           </p>
           <div className="w-full flex justify-center">
-            <button
-              className="bg-green-600 text-white text-lg px-8 py-3 rounded-xl shadow-md hover:bg-green-700 transition-all mt-4 cursor-pointer"
-              onClick={() => window.open("https://www.dw.com/es/la-econom%C3%ADa-circular-el-cambio-que-urge/a-68457172", "_blank", "noopener,noreferrer")}
-            >
-              ¡Únete a CirEconomy!
-            </button>
+            <Link href="/login">
+              <button className="bg-green-600 text-white text-lg px-8 py-3 rounded-xl shadow-md hover:bg-green-700 transition-all mt-4 cursor-pointer">
+                ¡Únete a CirEconomy!
+              </button>
+            </Link>
           </div>
         </div>
       </section>

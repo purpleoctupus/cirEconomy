@@ -1,7 +1,7 @@
 "use client"; 
 import { useState } from "react";
 
-export default function MenuNavbar() {
+export default function MobileMenu() {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
