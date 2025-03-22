@@ -1,4 +1,5 @@
-"use client"; 
+"use client";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function MobileMenu() {
@@ -28,9 +29,21 @@ export default function MobileMenu() {
                     </button>
 
                     <ul className="flex flex-col space-y-4">
-                        <li><a href="#" className="text-gray-700 hover:text-green-700">Inicio</a></li>
-                        <li><a href="#" className="text-gray-700 hover:text-green-700">Servicios</a></li>
-                        <li><a href="#" className="text-gray-700 hover:text-green-700">Contacto</a></li>
+                        <li>
+                            <Link href="/" className="text-gray-700 hover:text-green-700">
+                                Inicio
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/categories" className="text-gray-700 hover:text-green-700">
+                                Categorías
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/login" className="text-gray-700 hover:text-green-700">
+                                Cuenta
+                            </Link>
+                        </li>
                     </ul>
                 </div>
             </nav>
