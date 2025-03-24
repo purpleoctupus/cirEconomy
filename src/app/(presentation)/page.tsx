@@ -75,7 +75,6 @@ export default function Home() {
             alt="Ejemplo de economía circular"
             width={672}
             height={672}
-            layout="intrinsic"
             priority
           />
         </div>
@@ -90,7 +89,6 @@ export default function Home() {
             alt="CirEconomy en acción"
             width={672}
             height={672}
-            layout="intrinsic"
             priority
           />
         </div>
