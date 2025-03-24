@@ -94,7 +94,7 @@ export default function Home() {
             priority
           />
         </div>
-        <div className="flex flex-col items-center md:items-start w-full md:w-1/2 text-center px-4 max-w-md">
+        <div className="flex flex-col items-center w-full md:w-1/2 text-center px-4 max-w-md">
           <h2 className="text-3xl font-bold text-green-700 mb-2">¿Qué es CirEconomy?</h2>
           <p className="text-gray-600 mt-2 leading-relaxed text-justify">
             CirEconomy conecta empresas que generan materiales reutilizables con aquellas que los necesitan. Por ejemplo, una constructora puede vender excedentes en lugar de desecharlos, reduciendo desperdicio y fomentando un modelo sostenible.
