@@ -40,6 +40,11 @@ export default function MobileMenu() {
                             </Link>
                         </li>
                         <li>
+                            <Link href="/products" className="text-gray-700 hover:text-green-700">
+                                Productos
+                            </Link>
+                        </li>
+                        <li>
                             <Link href="/login" className="text-gray-700 hover:text-green-700">
                                 Cuenta
                             </Link>

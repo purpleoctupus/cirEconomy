@@ -95,7 +95,9 @@ export default function Home() {
         <div className="flex flex-col items-center w-full md:w-1/2 text-center px-4 max-w-md">
           <h2 className="text-3xl font-bold text-green-700 mb-2">¿Qué es CirEconomy?</h2>
           <p className="text-gray-600 mt-2 leading-relaxed text-justify">
-            CirEconomy conecta empresas que generan materiales reutilizables con aquellas que los necesitan. Por ejemplo, una constructora puede vender excedentes en lugar de desecharlos, reduciendo desperdicio y fomentando un modelo sostenible.
+            CirEconomy transforma el desperdicio en oportunidad.
+            Conecta empresas y particulares para dar una segunda vida a materiales y maquinaria. Tras un proyecto de construcción o remodelación, las empresas pueden subastar lo que ya no necesitan, permitiendo que otros lo aprovechen al mejor precio.
+            Al unirte, reduces residuos, optimizas recursos y cuidas el planeta. ¡Explora, oferta y sé parte del cambio!
           </p>
           <div className="w-full flex justify-center">
             <Link href="/login">

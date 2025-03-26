@@ -17,7 +17,7 @@ export default function Navbar() {
             priority
           />
           <span className="hidden sm:block text-green-700 text-2xl md:text-3xl font-semibold">
-            CirEconomy
+            Cir-Economy
           </span>
         </div>
 
@@ -26,6 +26,7 @@ export default function Navbar() {
         <nav className="hidden lg:flex space-x-8">
           <NavItem href="/" text="Inicio" />
           <NavItem href="/categories" text="Categorías" />
+          <NavItem href="/products" text="Productos" />
           <NavItem href="/login" text="Cuenta" />
         </nav>
       </div>
