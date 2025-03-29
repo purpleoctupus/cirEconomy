@@ -1,0 +1,11 @@
+services:
+  cireconomy_db:
+    image: postgres:17
+    container_name: cireconomy_postgres
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - ../../repository/migrations:/docker-entrypoint-initdb.d
