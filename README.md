@@ -19,7 +19,8 @@ To run the project, follow these steps:
 1. Run `npm install` to install the dependencies.
 2. Create a `.env` file in `infrastructure/local`. Use the [`.env.example`](./infrastructure/example.env) file as a template.
 3. Run `npm run docker:start` to start the database.
-4. Run `npm run dev` to start the development server.
+4. Execute `npx prisma generate` to generate the Prisma client.
+5. Run `npm run dev` to start the development server.
 
 If you need to stop the database, run `npm run docker:stop`.
 
