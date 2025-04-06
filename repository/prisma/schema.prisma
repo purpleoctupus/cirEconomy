@@ -53,7 +53,7 @@ model User {
   id            String   @id @default(uuid(7)) @db.Uuid
   name          String   @db.VarChar(255)
   email         String   @unique @db.VarChar(255)
-  emailVerified DateTime?
+  emailVerified Boolean? @default(false) @map("email_verified")
   image         String?
   password      String?  @db.VarChar(255)
   createdAt     DateTime @default(now()) @map("created_at")
