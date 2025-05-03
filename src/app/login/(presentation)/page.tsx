@@ -28,7 +28,9 @@ export default function Login() {
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="bg-white p-8 rounded-xl shadow-lg border border-green-50 w-full max-w-md">
-        <h2 className="text-2xl font-semibold text-center text-green-700">Iniciar sesión</h2>
+        <h2 className="text-2xl font-semibold text-center text-green-700">
+          Iniciar sesión
+        </h2>
         <form className="mt-6 space-y-4" onSubmit={handleSubmit(handleLogin)}>
           <div>
             <label className="block text-gray-600">Correo electrónico</label>
@@ -38,7 +40,11 @@ export default function Login() {
               className="w-full mt-1 p-3 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
               placeholder="tucorreo@example.com"
             />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -49,7 +55,11 @@ export default function Login() {
               className="w-full mt-1 p-3 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
               placeholder="********"
             />
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
           <button
@@ -59,9 +69,18 @@ export default function Login() {
             Iniciar sesión
           </button>
 
-          <div className="text-center text-sm mt-4 cursor-pointer">
-            <Link href="/forgot-password" className="text-green-600 hover:underline">
+          <div className="text-center text-sm mt-2 cursor-pointer">
+            <Link
+              href="/forgot-password"
+              className="text-green-600 hover:underline"
+            >
               ¿Olvidaste tu contraseña?
+            </Link>
+          </div>
+          <div className="text-center text-sm mt-2">
+            ¿No tienes cuenta?{" "}
+            <Link href="/register" className="text-green-600 hover:underline">
+              Regístrate
             </Link>
           </div>
 

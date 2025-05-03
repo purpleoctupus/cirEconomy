@@ -7,9 +7,27 @@ datasource db {
   url      = env("DB_URL")
 }
 
+model User {
+  id            String    @id @default(uuid()) @db.Uuid
+  name          String    @db.VarChar(255)
+  email         String    @unique @db.VarChar(255)
+  emailVerified Boolean?  @default(false) @map("email_verified")
+  image         String?
+  password      String?   @db.VarChar(255)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  accounts      Account[]
+  sessions      Session[]
+  products      Product[]
+  orders        Order[]
+
+  @@map("users")
+}
+
 model Account {
-  id                 String    @id @default(uuid(7))
-  userId             String    @map("user_id")
+  id                 String    @id @default(uuid())
+  userId             String    @map("user_id") @db.Uuid
   providerType       String    @map("provider_type")
   providerId         String    @map("provider_id")
   providerAccountId  String    @map("provider_account_id")
@@ -21,12 +39,12 @@ model Account {
   user               User      @relation(fields: [userId], references: [id])
 
   @@unique([providerId, providerAccountId])
-  @@map("accounts")
+  @@map("account")
 }
 
 model Session {
-  id           String   @id @default(uuid(7))
-  userId       String   @map("user_id")
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id") @db.Uuid
   expires      DateTime
   sessionToken String   @unique @map("session_token")
   accessToken  String   @unique @map("access_token")
@@ -38,7 +56,7 @@ model Session {
 }
 
 model VerificationRequest {
-  id         String   @id @default(uuid(7))
+  id         String   @id @default(uuid())
   identifier String
   token      String   @unique
   expires    DateTime
@@ -49,28 +67,10 @@ model VerificationRequest {
   @@map("verification_requests")
 }
 
-model User {
-  id            String   @id @default(uuid(7)) @db.Uuid
-  name          String   @db.VarChar(255)
-  email         String   @unique @db.VarChar(255)
-  emailVerified Boolean? @default(false) @map("email_verified")
-  image         String?
-  password      String?  @db.VarChar(255)
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @default(now()) @updatedAt @map("updated_at")
-
-  accounts      Account[]
-  sessions      Session[]
-  products      Product[]
-  orders        Order[]
-
-  @@map("users")
-}
-
 model Category {
-  id          String   @id @default(uuid(7)) @db.Uuid
+  id          String   @id @default(uuid()) @db.Uuid
   name        String   @db.VarChar(255)
-  description String? @db.Text
+  description String?  @db.Text
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
 
@@ -80,14 +80,14 @@ model Category {
 }
 
 model Product {
-  id           String   @id @default(uuid(7)) @db.Uuid
+  id           String   @id @default(uuid()) @db.Uuid
   name         String   @db.VarChar(255)
-  description  String  @db.Text
-  imageUrl     String  @db.Text @map("image_url")
-  unitaryPrice Decimal  @db.Decimal(18, 2)
+  description  String   @db.Text
+  imageUrl     String   @db.Text @map("image_url")
+  unitaryPrice Decimal  @db.Decimal(18, 2) @map("unitary_price")
   quantity     Int
-  categoryId   String @map("category_id")
-  userId       String @map("user_id")
+  categoryId   String   @map("category_id") @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
   isActive     Boolean  @default(true) @map("is_active")
   isSold       Boolean  @default(false) @map("is_sold")
   createdAt    DateTime @default(now()) @map("created_at")
@@ -101,9 +101,9 @@ model Product {
 }
 
 model Order {
-  id          String   @id @default(uuid(7)) @db.Uuid
+  id          String   @id @default(uuid()) @db.Uuid
   orderNumber String   @db.VarChar(255) @map("order_number")
-  userId      String   @map("user_id")
+  userId      String   @map("user_id") @db.Uuid
   total       Decimal  @db.Decimal(18, 2)
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
@@ -115,15 +115,15 @@ model Order {
 }
 
 model OrderItem {
-  id         String   @id @default(uuid(7)) @db.Uuid
+  id         String   @id @default(uuid()) @db.Uuid
   quantity   Int
   price      Decimal  @db.Decimal(18, 2)
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @default(now()) @updatedAt @map("updated_at")
 
-  orderId    String
+  orderId    String   @map("order_id") @db.Uuid
   order      Order    @relation(fields: [orderId], references: [id])
-  productId  String
+  productId  String   @map("product_id") @db.Uuid
   product    Product  @relation(fields: [productId], references: [id])
 
   @@map("order_items")
