@@ -5,7 +5,7 @@ import Link from "next/link";
 import { GrGoogle } from "react-icons/gr";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, LoginSchemaType } from "../utils/validationSchemas";
+import { loginSchema, LoginSchemaType } from "../../utils/validationSchemas";
 
 export default function Login() {
   const {
@@ -21,7 +21,7 @@ export default function Login() {
       email: data.email,
       password: data.password,
       redirect: true,
-      callbackUrl: "/",
+      callbackUrl: "/home",
     });
   };
 

@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import Footer from "../components/Footer";
+import Footer from "../../components/Footer";
 import Link from "next/link";
 
 export default function Home() {
