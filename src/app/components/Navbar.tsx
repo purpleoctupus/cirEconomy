@@ -24,7 +24,7 @@ export default function Navbar() {
         <MobileMenu />
 
         <nav className="hidden lg:flex space-x-8">
-          <NavItem href="/home" text="Inicio" />
+          <NavItem href="/" text="Inicio" />
           <NavItem href="/categories" text="Categorías" />
           <NavItem href="/products" text="Productos" />
           <NavItem href="/login" text="Cuenta" />

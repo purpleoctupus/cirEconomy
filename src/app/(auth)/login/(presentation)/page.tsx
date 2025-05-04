@@ -1,11 +1,12 @@
 "use client";
 
-import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { GrGoogle } from "react-icons/gr";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginSchemaType } from "../../utils/validationSchemas";
+import { signInUser } from "../../useCases/signInUser";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const {
@@ -15,14 +16,17 @@ export default function Login() {
   } = useForm<LoginSchemaType>({
     resolver: zodResolver(loginSchema),
   });
+  const router = useRouter();
 
   const handleLogin = async (data: LoginSchemaType) => {
-    await signIn("credentials", {
+    const result = await signInUser({
       email: data.email,
       password: data.password,
-      redirect: true,
-      callbackUrl: "/home",
     });
+    
+    if (result.success) {
+      router.push("/");
+    }
   };
 
   return (
@@ -87,7 +91,6 @@ export default function Login() {
           <button
             type="button"
             className="w-full mt-4 flex items-center justify-center gap-2 cursor-pointer bg-white border border-gray-300 py-3 rounded-md hover:bg-gray-100 transition-all"
-            onClick={() => signIn("google")}
           >
             <GrGoogle />
             Iniciar sesión con Google

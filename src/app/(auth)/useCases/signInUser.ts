@@ -7,16 +7,18 @@ export async function signInUser({
   email: string;
   password: string;
 }) {
-  try {
-    const res = await signIn("credentials", {
-      email,
-      password,
-      redirect: true,
-      callbackUrl: "/home"
-    });
-    
+  const res = await signIn("credentials", {
+    email,
+    password,
+    redirect: false,
+  });
+
+  if (res?.ok) {
     return { success: true };
-  } catch (error: any) {
-    return { success: false, error: error.message || "Error al iniciar sesión" };
+  } else {
+    return {
+      success: false,
+      error: res?.error || "Credenciales inválidas",
+    };
   }
 }
