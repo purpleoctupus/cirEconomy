@@ -1,7 +1,4 @@
-"use server";
-
 import { signIn } from "next-auth/react";
-import { redirect } from "next/navigation";
 
 export async function signInUser({
   email,
@@ -10,15 +7,16 @@ export async function signInUser({
   email: string;
   password: string;
 }) {
-  const res = await signIn("credentials", {
-    email,
-    password,
-    redirect: false,
-  });
-
-  if (res?.error) {
-    throw new Error("Inicio de sesión fallido");
+  try {
+    const res = await signIn("credentials", {
+      email,
+      password,
+      redirect: true,
+      callbackUrl: "/home"
+    });
+    
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message || "Error al iniciar sesión" };
   }
-
-  redirect("/home");
 }
