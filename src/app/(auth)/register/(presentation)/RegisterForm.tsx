@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function FormRegister() {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +24,8 @@ export default function FormRegister() {
   } = useForm<RegisterSchemaType>({
     resolver: zodResolver(registerSchema),
   });
+
+    const router = useRouter();
 
   const handleRegister = async (data: RegisterSchemaType) => {
     setIsLoading(true);
@@ -39,6 +42,7 @@ export default function FormRegister() {
         email: data.email,
         password: data.password,
       });
+      router.push("/");
     } catch (err: any) {
       setErrorMsg(err.message || "Ocurrió un error inesperado");
     } finally {

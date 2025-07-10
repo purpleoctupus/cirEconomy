@@ -25,7 +25,7 @@ export default function Login() {
     });
     
     if (result.success) {
-      router.push("/");
+      router.push("/my-products");
     }
   };
 

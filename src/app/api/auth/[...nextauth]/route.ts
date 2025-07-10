@@ -4,9 +4,29 @@ import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
+// Extend the Session and User types to include 'id'
+import NextAuthTypes from "next-auth";
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    };
+  }
+  interface User {
+    id: string;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+    password?: string | null;
+  }
+}
+
 const prisma = new PrismaClient();
 
-const authOptions: AuthOptions = {
+export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
@@ -45,7 +65,20 @@ const authOptions: AuthOptions = {
   ],
   session: {
     strategy: "jwt",
-
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user && token.id) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
   },
   pages: {
     signIn: "/login",
