@@ -2,12 +2,15 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import ProductsGrid from "../../products/components/ProductsGrid";
-import { useState } from "react";
-import AddProductModal from "./AddProductModal";
+import AddProductModal from "./components/AddProductModal";
+import EditProductModal from "./components/EditProductModal";
+import DeleteProductModal from "./components/DeleteProductModal";
+import { useMyProducts } from "./application/useMyProducts";
+import { useEditDeleteProduct } from "./application/useEditDeleteProduct";
 
-// Dummy data for demonstration; replace with real fetch in production
-const allProducts = [
+const initialProducts = [
   {
     id: 1,
     name: "Excavadora usada",
@@ -41,68 +44,101 @@ const allProducts = [
 ];
 
 export default function MyProductsPage() {
-    const { data: session, status } = useSession();
-    const router = useRouter();
-    const [products, setProducts] = useState(allProducts);
-    const [showAddModal, setShowAddModal] = useState(false);
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const {
+    userProducts,
+    showAddModal,
+    setShowAddModal,
+    handleAddProduct,
+    handleAddProductSubmit,
+  } = useMyProducts(session);
 
-    if (status === "loading") return <div>Cargando...</div>;
-    if (!session) {
-        router.push("/login");
-        return <div>Redirigiendo al login...</div>;
+  // Edit/Delete logic
+  const {
+    products,
+    editProductId,
+    showEditModal,
+    setShowEditModal,
+    handleEditProduct,
+    handleEditProductSubmit,
+    handleDeleteProduct,
+  } = useEditDeleteProduct(initialProducts, session?.user?.id ?? "");
+
+  const productToEdit = products.find((p) => p.id === editProductId) || null;
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [productIdToDelete, setProductIdToDelete] = useState<number | null>(null);
+
+  function handleDeleteRequest(id: number) {
+    setProductIdToDelete(id);
+    setShowDeleteModal(true);
+  }
+
+  function handleDeleteConfirm() {
+    if (productIdToDelete !== null) {
+      handleDeleteProduct(productIdToDelete);
     }
+    setShowDeleteModal(false);
+    setProductIdToDelete(null);
+  }
 
-    // Filter products by logged-in user (using id as unique identifier)
-    const userProducts = products.filter(
-        (p) => p.ownerId === session.user?.id
-    );
-    // Placeholder for CRUD actions (to be implemented)
-    function handleAddProduct() {
-        setShowAddModal(true);
+  function handleDeleteCancel() {
+    setShowDeleteModal(false);
+    setProductIdToDelete(null);
+  }
+
+  const productToDelete = products.find((p) => p.id === productIdToDelete);
+
+  useEffect(() => {
+    if (status !== "loading" && !session) {
+      router.push("/login");
     }
+  }, [status, session, router]);
 
-    function handleAddProductSubmit(newProduct: any) {
-        setProducts([
-            ...products,
-            {
-                ...newProduct,
-                id: products.length + 1,
-                ownerId: session?.user?.id,
-            },
-        ]);
-        setShowAddModal(false);
-    }
-    // function handleEditProduct(id) {}
-    // function handleDeleteProduct(id) {}
+  if (status === "loading") return <div>Cargando...</div>;
+  if (!session) return <div>Redirigiendo al login...</div>;
 
-    return (
-        <section className="min-h-screen py-10 px-4 sm:px-8">
-            <div className="max-w-6xl mx-auto">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
-                    <h2 className="text-2xl font-semibold text-green-700">Mis productos</h2>
-                    <button
-                        onClick={handleAddProduct}
-                        className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-all font-medium shadow-sm"
-                    >
-                        + Agregar producto
-                    </button>
-                </div>
-                <div className="bg-white rounded-xl shadow-lg border border-green-50 p-4">
-                    <ProductsGrid
-                        products={userProducts}
-                        title="Tus productos publicados"
-                    />
-                </div>
-                <AddProductModal
-                    open={showAddModal}
-                    onClose={() => setShowAddModal(false)}
-                    onSubmit={handleAddProductSubmit}
-                />
-            </div>
-        </section>
-    );
-}
-function setShowAddModal(arg0: boolean) {
-    throw new Error("Function not implemented.");
+  return (
+    <section className="min-h-screen py-10 px-4 sm:px-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
+          <h2 className="text-2xl font-semibold text-green-700">Mis productos</h2>
+          <button
+            onClick={handleAddProduct}
+            className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-all font-medium shadow-sm cursor-pointer"
+          >
+            + Agregar producto
+          </button>
+        </div>
+        <div className="bg-white rounded-xl shadow-lg border border-green-50 p-4">
+          <ProductsGrid
+            products={userProducts}
+            title="Tus productos publicados"
+            onEdit={handleEditProduct}
+            onDelete={handleDeleteRequest}
+            showActions={true}
+          />
+        </div>
+        <AddProductModal
+          open={showAddModal}
+          onClose={() => setShowAddModal(false)}
+          onSubmit={handleAddProductSubmit}
+        />
+        <EditProductModal
+          open={showEditModal}
+          onClose={() => setShowEditModal(false)}
+          product={productToEdit}
+          onSubmit={handleEditProductSubmit}
+        />
+        <DeleteProductModal
+          open={showDeleteModal}
+          onClose={handleDeleteCancel}
+          onConfirm={handleDeleteConfirm}
+          productName={productToDelete?.name}
+        />
+      </div>
+    </section>
+  );
 }
 
